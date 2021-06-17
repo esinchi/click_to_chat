@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WsTools extends StatefulWidget {
   @override
@@ -39,10 +40,11 @@ class _WsToolsState extends State<WsTools> {
 
               //print(intRegex.allMatches(value).map((m) => m.group(0)));
             },
+            //autofocus: ,
           ),
         ),
         Text(
-          'NUMEROS',
+          'CLICK PARA CHATEAR',
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
         _listaNumeros(),
@@ -62,10 +64,20 @@ class _WsToolsState extends State<WsTools> {
           leading: Icon(Icons.phone, color: Colors.blue),
           title: Text(_myList[index]),
           onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
             print(_myList[index]);
+            abrirWhatsapp(_myList[index]);
           },
         );
       },
     );
+  }
+
+  abrirWhatsapp(String telefono) async {
+    String whatsappUrl = "whatsapp://send?phone=593$telefono";
+    await canLaunch(whatsappUrl)
+        ? launch(whatsappUrl)
+        : print(
+            "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
   }
 }
